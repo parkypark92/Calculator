@@ -15,7 +15,8 @@ body {
 .screen {
     width: 400px;
     height: 80px;
-    background-color: aliceblue;
+    background-color: rgb(255, 255, 255);
+    color: black;
     margin-bottom: 60px;
 }
 
@@ -27,15 +28,19 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+    align-items: center;
     width: 300px;
     height: 380px;
-    padding-top: 40px;
     background-color: aquamarine;
 }
 
-.number {
+.number, .operator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 50px;
     width: 80px;
+    color: aliceblue;
     background-color: blue;
 }
 
@@ -50,8 +55,6 @@ body {
 }
 
 .operator {
-    height: 40px;
-    width: 80px;
     background-color: brown;
 }
 
