@@ -28,21 +28,26 @@ display.textContent = "");
 
 const plus = document.querySelector('.plus');
 plus.addEventListener('click', () =>
-display.textContent += "+");
+display.textContent += " + ");
 const minus = document.querySelector('.minus');
 minus.addEventListener('click', () =>
-display.textContent += "-");
+display.textContent += " - ");
 const star = document.querySelector('.star');
 star.addEventListener('click', () =>
-display.textContent += "*");
+display.textContent += " * ");
 const slash = document.querySelector('.slash');
 slash.addEventListener('click', () =>
-display.textContent += "/");
+display.textContent += " / ");
 const equals = document.querySelector('.equals');
+equals.addEventListener('click', () => {
+let calcArray = display.textContent.split(' ');
+calculate(calcArray);
+});
+
 
 
 function add(num1, num2) {
-    return num1 + num2;
+    return +num1 + +num2;
 }
 
 function subtract(num1, num2) {
@@ -57,18 +62,27 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
-function operate(operator, num1, num2) {
+function operate(num1, operator, num2) {
     let answer;
-    if (operator == 'plus') {
+    if (operator == '+') {
         answer = add(num1, num2);
-    } else if (operator == 'minus') {
+    } else if (operator == '-') {
         answer = subtract(num1, num2)
-    } else if (operator == 'star') {
+    } else if (operator == '*') {
         answer = multiply(num1, num2)
-    } else if (operator == 'slash') {
+    } else if (operator == '/') {
         answer = divide(num1, num2)
     }
     return answer;
 }
 
-console.log(parseInt('1', 10))
+function calculate(array)
+{
+    while(array.length > 1) {
+    let i = array.findIndex(el => el == '*' || el == '/' || el == '+' || el == '-');
+    let currentSum = array.splice(i - 1, 3);
+    let result = operate(currentSum[0], currentSum[1], currentSum[2])
+    array.splice(i - 1, 0, result);
+    }
+  console.log(array);
+}

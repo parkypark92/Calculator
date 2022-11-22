@@ -13,11 +13,20 @@ body {
 }
 
 .screen {
+    position: relative;
     width: 400px;
     height: 80px;
     background-color: rgb(255, 255, 255);
     color: black;
     margin-bottom: 60px;
+}
+
+.display {
+    font-size: 2em;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    margin: 0;
 }
 
 .buttons {
@@ -56,5 +65,9 @@ body {
 
 .operator {
     background-color: brown;
+}
+
+.button:hover {
+    cursor: pointer;
 }
 
