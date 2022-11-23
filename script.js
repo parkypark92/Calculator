@@ -1,4 +1,5 @@
-const display = document.querySelector('.display');
+const display = document.querySelector('.display-bottom');
+const displayTop = document.querySelector('.display-top')
 
 const zero = document.querySelector('.zero');
 const one = document.querySelector('.one');
@@ -16,7 +17,7 @@ const numArray = [zero, one, two, three, four, five, six, seven, eight, nine];
 for(let i = 0; i < numArray.length; i++)
 {
     numArray[i].addEventListener('click', () => {
-        if(display.textContent.length < 23) {
+        if(display.textContent.length < 30) {
         display.textContent += `${i}`;
         }
     });
@@ -31,35 +32,37 @@ display.textContent += '.';
 
 const plus = document.querySelector('.plus');
 plus.addEventListener('click', () => {
-    if(display.textContent.length < 20) {
-    display.textContent += " + "
-    }
+    toTop(display);
+    calculate(displayTop, ' + ' );
+    
 });
 
 const minus = document.querySelector('.minus');
 minus.addEventListener('click', () => {
-    if(display.textContent.length < 20) {
-    display.textContent += " - ";
-    }
+    toTop(display);
+    calculate(displayTop, ' - ' );
+
 });
 
 const star = document.querySelector('.star');
 star.addEventListener('click', () => {
-    if(display.textContent.length < 20) {
-    display.textContent += " * "
-    }
+    toTop(display);
+    calculate(displayTop, ' * ' );
+
 });
 
 const slash = document.querySelector('.slash');
 slash.addEventListener('click', () => {
-    if(display.textContent.length < 20) {
-    display.textContent += " / ";
-    }
+    toTop(display);
+    calculate(displayTop, ' / ' );
+
 });
 
 const clear = document.querySelector('.clear');
-clear.addEventListener('click', () =>
-display.textContent = "");
+clear.addEventListener('click', () => {
+display.textContent = "";
+displayTop.textContent = "";
+});
 
 const equals = document.querySelector('.equals');
 equals.addEventListener('click', () => {
@@ -68,15 +71,19 @@ display.textContent = calculate(calcArray);
 });
 
 
-function calculate(array)
+function calculate(sumDisplay, operator)
 {
-    while(array.length > 1) {
-    let i = array.findIndex(el => el == '*' || el == '/' || el == '+' || el == '-');
-    let currentSum = array.splice(i - 1, 3);
-    let result = operate(currentSum[0], currentSum[1], currentSum[2])
-    array.splice(i - 1, 0, result);
+    let currentSum = sumDisplay.textContent.split(' ');
+    if(currentSum.length != 3) {
+        sumDisplay.textContent += operator;
+        return;
+    } else {
+        let result = operate(currentSum[0], currentSum[1], currentSum[2]);
+        sumDisplay.textContent += operator;
+        display.textContent = '= ' + result;
+
+
     }
-  return array;
 }
 
 
@@ -111,5 +118,8 @@ function divide(num1, num2) {
     return num1 / num2;
 }
 
-
+function toTop(display) {
+    displayTop.textContent += display.textContent;
+    display.textContent = "";
+}
 
