@@ -1,5 +1,6 @@
 const display = document.querySelector('.display-bottom');
-const displayTop = document.querySelector('.display-top')
+display.textContent = 0;
+const displayTop = document.querySelector('.display-top');
 
 const zero = document.querySelector('.zero');
 const one = document.querySelector('.one');
@@ -18,6 +19,7 @@ for(let i = 0; i < numArray.length; i++)
 {
     numArray[i].addEventListener('click', () => {
         if(display.textContent.length < 20) {
+            numbersChecker();
         display.textContent += `${i}`;
         displayTop.textContent += `${i}`;
         }
@@ -26,7 +28,10 @@ for(let i = 0; i < numArray.length; i++)
 
 const dot = document.querySelector('.dot');
 dot.addEventListener('click', () => {
-    if(display.textContent.length < 20){
+    if(display.textContent.includes('.')) {
+        return;
+    }
+    else if(display.textContent.length < 20){
 display.textContent += '.';
 displayTop.textContent += '.';
     }
@@ -34,36 +39,30 @@ displayTop.textContent += '.';
 
 const plus = document.querySelector('.plus');
 plus.addEventListener('click', () => {
-    display.textContent = "";
+    operationsChecker(' + ');
     calculate(displayTop, ' + ' );
     
 });
 
 const minus = document.querySelector('.minus');
 minus.addEventListener('click', () => {
-    display.textContent = "";
+    operationsChecker(' - ');
     calculate(displayTop, ' - ' );
 
 });
 
 const star = document.querySelector('.star');
 star.addEventListener('click', () => {
-    display.textContent = "";
+    operationsChecker(' * ');
     calculate(displayTop, ' * ' );
 
 });
 
 const slash = document.querySelector('.slash');
 slash.addEventListener('click', () => {
-    display.textContent = "";
+    operationsChecker(' / ')
     calculate(displayTop, ' / ' );
 
-});
-
-const clear = document.querySelector('.clear');
-clear.addEventListener('click', () => {
-display.textContent = "";
-displayTop.textContent = "";
 });
 
 const equals = document.querySelector('.equals');
@@ -71,16 +70,44 @@ equals.addEventListener('click', () => {
     displayAnswer(displayTop);
 });
 
+const clear = document.querySelector('.clear');
+clear.addEventListener('click', () => {
+display.textContent = 0;
+displayTop.textContent = "";
+});
+
+
+function operationsChecker(operator) 
+{
+    if(display.textContent == "0") {
+        displayTop.textContent = 0 + operator;
+    }
+}
+
+function numbersChecker() 
+{
+    if(display.textContent == 0) {
+        display.textContent = "";
+    }
+}
+
+// function equalsChecker() 
+// {
+//     if(typeof displayTop == 'number')
+// }
 
 function calculate(sumDisplay, operator)
 {
-    let currentSum = sumDisplay.textContent.split(' ');
-    
+    let currentSum = sumDisplay.textContent.split(' ');  
+    display.textContent = "";
     if(currentSum.length != 3) {
         sumDisplay.textContent += operator;
         return;
     } 
     else if(currentSum[2] == "" ){
+        currentSum[1] = operator;
+        currentSum.pop();
+        sumDisplay.textContent = currentSum.join("");
         return;
     } else {
         let result = operate(currentSum[0], currentSum[1], currentSum[2]);
@@ -90,6 +117,13 @@ function calculate(sumDisplay, operator)
 
 function displayAnswer(sumDisplay) {
     let currentSum = sumDisplay.textContent.split(' ');
+    if(currentSum.length != 3) {
+        return;
+    }
+    if(currentSum[2] == "" ){
+        display.textContent = "= " + currentSum[0];
+        return;
+    }
     let result = operate(currentSum[0], currentSum[1], currentSum[2]);
     display.textContent = "= " + result;
 }
@@ -111,23 +145,19 @@ function operate(num1, operator, num2) {
 
 
 function add(num1, num2) {
-    return +num1 + +num2;
+    return +((num1 * 10) + (num2 * 10)) / 10;
 }
 
 function subtract(num1, num2) {
-    return num1 - num2;
+    return (num1 * 10 - num2 * 10) / 10;
 }
 
 function multiply(num1, num2) {
-    return num1 * num2;
+    return ((num1 * 10) * (num2)) / 10;
 }
 
 function divide(num1, num2) {
-    return num1 / num2;
+    return ((num1 * 10) / (num2)) / 10;
 }
 
-// function toTop(display) {
-//     displayTop.textContent += display.textContent;
-//     display.textContent = "";
-// }
 
