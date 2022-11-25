@@ -53,6 +53,11 @@ slash.addEventListener('click', () => {
     calculate(displayTop, ' / ' );
 });
 
+power.addEventListener('click', () => {
+    operationsChecker(' ^ ');
+    calculate(displayTop, ' ^ ' );
+});
+
 equals.addEventListener('click', () => {
     displayAnswer(displayTop);
 });
@@ -60,6 +65,8 @@ equals.addEventListener('click', () => {
 dot.addEventListener('click', dotChecker);
 
 answer.addEventListener('click', answerChecker);
+
+backspace.addEventListener('click', deleteLast);
 
 clear.addEventListener('click', () => {
 display.textContent = 0;
@@ -102,8 +109,12 @@ function numbersChecker()
 
 function dotChecker()
 {
-    if(display.textContent.includes('.') || 
-       displayTop.textContent.includes('.')) {
+    let currentSum = displayTop.textContent.split(' ');  
+    if(display.textContent.includes('.')) {
+        return;
+    } else if(currentSum.length == 1 && currentSum[0].includes('.')) {
+        return;
+    } else if(currentSum.length == 3 && currentSum[2].includes('.')) {
         return;
     }
     else if(display.textContent.length < 20){
@@ -124,8 +135,17 @@ function answerChecker()
 
 }
 
-function equalsChecker() 
-{
+function deleteLast() {
+    let currentSum = displayTop.textContent.split(' ');  
+    if(currentSum[2] == "") {
+        return;
+    } else if(display.textContent.includes('=')) {
+        return;
+    } else if(display.textContent == '0') {
+        return;
+    }
+    display.textContent = display.textContent.slice(0,-1);
+    displayTop.textContent = displayTop.textContent.slice(0,-1);
 }
 
 function calculate(sumDisplay, operator)
@@ -162,17 +182,19 @@ let currentSum = sumDisplay.textContent.split(' ');
 
 
 function operate(num1, operator, num2) {
-    let answer;
+    let result;
     if (operator == '+') {
-        answer = add(num1, num2);
+        result = add(num1, num2);
     } else if (operator == '-') {
-        answer = subtract(num1, num2)
+        result = subtract(num1, num2);
     } else if (operator == '*') {
-        answer = multiply(num1, num2)
+        result = multiply(num1, num2);
     } else if (operator == '/') {
-        answer = divide(num1, num2)
+        result = divide(num1, num2);
+    } else if (operator == '^') {
+        result = powerOf(num1, num2);
     }
-    return answer;
+    return result;
 }
 
 
@@ -192,4 +214,8 @@ function divide(num1, num2) {
     return ((num1 * 10) / (num2)) / 10;
 }
 
+function powerOf(num1, num2)
+{
+    return num1 ** num2;
+}
 
