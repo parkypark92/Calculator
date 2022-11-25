@@ -1,7 +1,10 @@
+//display variables and defaults
 const display = document.querySelector('.display-bottom');
-display.textContent = 0;
 const displayTop = document.querySelector('.display-top');
+display.textContent = 0;
+let equalsAnswer = 0;
 
+//button variables
 const zero = document.querySelector('.zero');
 const one = document.querySelector('.one');
 const two = document.querySelector('.two');
@@ -12,10 +15,61 @@ const six = document.querySelector('.six');
 const seven = document.querySelector('.seven');
 const eight = document.querySelector('.eight');
 const nine = document.querySelector('.nine');
-
 const numArray = [zero, one, two, three, four, five, six, seven, eight, nine];
 
-for(let i = 0; i < numArray.length; i++)
+const clear = document.querySelector('.clear');
+const backspace = document.querySelector('.backspace');
+const power = document.querySelector('.power');
+const plus = document.querySelector('.plus');
+const minus = document.querySelector('.minus');
+const star = document.querySelector('.star');
+const slash = document.querySelector('.slash');
+const equals = document.querySelector('.equals');
+const dot = document.querySelector('.dot');
+const answer = document.querySelector('.answer');
+
+
+
+//button events
+getNumberEvents();
+
+plus.addEventListener('click', () => {
+    operationsChecker(' + ');
+    calculate(displayTop, ' + ' );
+});
+
+minus.addEventListener('click', () => {
+    operationsChecker(' - ');
+    calculate(displayTop, ' - ' );
+});
+
+star.addEventListener('click', () => {
+    operationsChecker(' * ');
+    calculate(displayTop, ' * ' );
+});
+
+slash.addEventListener('click', () => {
+    operationsChecker(' / ');
+    calculate(displayTop, ' / ' );
+});
+
+equals.addEventListener('click', () => {
+    displayAnswer(displayTop);
+});
+
+dot.addEventListener('click', dotChecker);
+
+answer.addEventListener('click', answerChecker);
+
+clear.addEventListener('click', () => {
+display.textContent = 0;
+displayTop.textContent = "";
+});
+
+//functions
+function getNumberEvents()
+{
+    for(let i = 0; i < numArray.length; i++)
 {
     numArray[i].addEventListener('click', () => {
         if(display.textContent.length < 20) {
@@ -25,56 +79,7 @@ for(let i = 0; i < numArray.length; i++)
         }
     });
 }
-
-const dot = document.querySelector('.dot');
-dot.addEventListener('click', () => {
-    if(display.textContent.includes('.')) {
-        return;
-    }
-    else if(display.textContent.length < 20){
-display.textContent += '.';
-displayTop.textContent += '.';
-    }
-});
-
-const plus = document.querySelector('.plus');
-plus.addEventListener('click', () => {
-    operationsChecker(' + ');
-    calculate(displayTop, ' + ' );
-    
-});
-
-const minus = document.querySelector('.minus');
-minus.addEventListener('click', () => {
-    operationsChecker(' - ');
-    calculate(displayTop, ' - ' );
-
-});
-
-const star = document.querySelector('.star');
-star.addEventListener('click', () => {
-    operationsChecker(' * ');
-    calculate(displayTop, ' * ' );
-
-});
-
-const slash = document.querySelector('.slash');
-slash.addEventListener('click', () => {
-    operationsChecker(' / ')
-    calculate(displayTop, ' / ' );
-
-});
-
-const equals = document.querySelector('.equals');
-equals.addEventListener('click', () => {
-    displayAnswer(displayTop);
-});
-
-const clear = document.querySelector('.clear');
-clear.addEventListener('click', () => {
-display.textContent = 0;
-displayTop.textContent = "";
-});
+}
 
 
 function operationsChecker(operator) 
@@ -84,17 +89,44 @@ function operationsChecker(operator)
     }
 }
 
+
 function numbersChecker() 
 {
-    if(display.textContent == 0) {
+    if(display.textContent == '0' ||
+        display.textContent.includes('=')) {
         display.textContent = "";
+        displayTop.textContent = "";
+    }  
+}
+
+
+function dotChecker()
+{
+    if(display.textContent.includes('.') || 
+       displayTop.textContent.includes('.')) {
+        return;
+    }
+    else if(display.textContent.length < 20){
+display.textContent += '.';
+displayTop.textContent += '.';
     }
 }
 
-// function equalsChecker() 
-// {
-//     if(typeof displayTop == 'number')
-// }
+function answerChecker()
+{
+    display.textContent = "";
+    let currentSum = displayTop.textContent.split(' ');  
+    if(currentSum[2] == "") {
+        displayTop.textContent += equalsAnswer;
+    } else {
+        displayTop.textContent = equalsAnswer;
+    }
+
+}
+
+function equalsChecker() 
+{
+}
 
 function calculate(sumDisplay, operator)
 {
@@ -116,16 +148,16 @@ function calculate(sumDisplay, operator)
 }
 
 function displayAnswer(sumDisplay) {
-    let currentSum = sumDisplay.textContent.split(' ');
+let currentSum = sumDisplay.textContent.split(' ');
     if(currentSum.length != 3) {
         return;
     }
-    if(currentSum[2] == "" ){
+    else if(currentSum[2] == "" ){
         display.textContent = "= " + currentSum[0];
         return;
     }
-    let result = operate(currentSum[0], currentSum[1], currentSum[2]);
-    display.textContent = "= " + result;
+    equalsAnswer = operate(currentSum[0], currentSum[1], currentSum[2]);
+    display.textContent = "= " + equalsAnswer;
 }
 
 
