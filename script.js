@@ -1,7 +1,7 @@
 //display variables and defaults
 const display = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
-display.textContent = 0;
+// display.textContent = 0;
 let equalsAnswer = 0;
 
 //button variables
@@ -31,105 +31,192 @@ const answer = document.querySelector('.answer');
 
 
 //button events
-getNumberEvents();
+getClickEventsForNumbers();
+getKeyEventsForNumbers();
 
 plus.addEventListener('click', () => {
     operationsChecker(' + ');
-    calculate(displayTop, ' + ' );
+    calculate(displayTop, ' + ');
+});
+
+document.addEventListener('keypress', e => {
+        if(e.key == '+') {
+            operationsChecker(' + ');
+    calculate(displayTop, ' + ');
+        
+    }
 });
 
 minus.addEventListener('click', () => {
     operationsChecker(' - ');
-    calculate(displayTop, ' - ' );
+    calculate(displayTop, ' - ');
+});
+
+document.addEventListener('keypress', e => {
+        if(e.key == '-') {
+            operationsChecker(' - ');
+    calculate(displayTop, ' - ');
+        }  
 });
 
 star.addEventListener('click', () => {
     operationsChecker(' * ');
-    calculate(displayTop, ' * ' );
+    calculate(displayTop, ' * ');
+});
+
+document.addEventListener('keypress', e => {
+        if(e.key == '*') {
+            operationsChecker(' * ');
+    calculate(displayTop, ' * ');
+    }
 });
 
 slash.addEventListener('click', () => {
     operationsChecker(' / ');
-    calculate(displayTop, ' / ' );
+    calculate(displayTop, ' / ');
+});
+
+document.addEventListener('keypress', e => {
+    if(e.key == '/') {
+        operationsChecker(' / ');
+calculate(displayTop, ' / ');
+}
 });
 
 power.addEventListener('click', () => {
     operationsChecker(' ^ ');
-    calculate(displayTop, ' ^ ' );
+    calculate(displayTop, ' ^ ');
+});
+
+document.addEventListener('keypress', e => {
+    if(e.key == '^') {
+        operationsChecker(' ^ ');
+calculate(displayTop, ' ^ ');
+}
 });
 
 equals.addEventListener('click', () => {
     displayAnswer(displayTop);
 });
 
+document.addEventListener('keypress', e => {
+    if(e.key == '=') {
+        displayAnswer(displayTop);
+
+}
+});
+
 dot.addEventListener('click', dotChecker);
+
+document.addEventListener('keypress', e => {
+    if(e.key == '.') {
+        dotChecker();
+}
+});
 
 answer.addEventListener('click', answerChecker);
 
-backspace.addEventListener('click', deleteLast);
-
-clear.addEventListener('click', () => {
-display.textContent = 0;
-displayTop.textContent = "";
+document.addEventListener('keypress', e => {
+    if(e.key == 'a') {
+        answerChecker();
+}
 });
 
+
+backspace.addEventListener('click', deleteLast);
+
+document.addEventListener('keydown', e => {
+    if(e.key === 'Backspace') {
+        deleteLast();
+}
+});
+
+clear.addEventListener('click', () => {
+    display.textContent = "";
+    displayTop.textContent = "";
+});
+
+document.addEventListener('keypress', e => {
+    if(e.key == 'c') {
+        display.textContent = "";
+    displayTop.textContent = "";
+}
+});
+
+
 //functions
-function getNumberEvents()
-{
-    for(let i = 0; i < numArray.length; i++)
-{
-    numArray[i].addEventListener('click', () => {
-        if(display.textContent.length < 20) {
-            numbersChecker();
-        display.textContent += `${i}`;
-        displayTop.textContent += `${i}`;
+function getClickEventsForNumbers() {
+    for (let i = 0; i < numArray.length; i++) {
+        numArray[i].addEventListener('click', () => {
+            if (display.textContent.length < 20) {
+                numbersChecker();
+                display.textContent += `${i}`;
+                displayTop.textContent += `${i}`;
+            }  
+        });
+    }
+}
+
+function getKeyEventsForNumbers() {
+    for (let i = 0; i < numArray.length; i++) {
+        document.addEventListener('keypress', e => {
+            if(e.key == i) {
+            if (display.textContent.length < 20) {
+                numbersChecker();
+                display.textContent += `${i}`;
+                displayTop.textContent += `${i}`;
+            }  
         }
-    });
-}
+        });
+    }
 }
 
 
-function operationsChecker(operator) 
-{
-    if(display.textContent == "0") {
+
+function operationsChecker(operator) {
+    if (display.textContent == "" && displayTop.textContent == "") {
         displayTop.textContent = 0 + operator;
     }
 }
 
 
-function numbersChecker() 
-{
-    if(display.textContent == '0' ||
+
+function numbersChecker() {
+    if (
         display.textContent.includes('=')) {
         display.textContent = "";
         displayTop.textContent = "";
-    }  
+    }
+    if(display.textContent == '0' && displayTop.textContent == '0') {
+        display.textContent = "";
+        displayTop.textContent = "";
+    }
 }
 
 
-function dotChecker()
-{
+function dotChecker() {
     let currentSum = displayTop.textContent.split(' ');  
-    if(display.textContent.includes('.')) {
+    if (display.textContent.includes('.')) {
         return;
-    } else if(currentSum.length == 1 && currentSum[0].includes('.')) {
+    } else if (currentSum.length == 1 && currentSum[0].includes('.')) {
         return;
-    } else if(currentSum.length == 3 && currentSum[2].includes('.')) {
+    } else if (currentSum.length == 3 && currentSum[2].includes('.')) {
         return;
     }
-    else if(display.textContent.length < 20){
-display.textContent += '.';
-displayTop.textContent += '.';
+    else if (display.textContent.length < 20) {
+        display.textContent += '.';
+        displayTop.textContent += '.';
     }
 }
 
-function answerChecker()
-{
+function answerChecker() {
     display.textContent = "";
     let currentSum = displayTop.textContent.split(' ');  
-    if(currentSum[2] == "") {
+    if (currentSum[2] == "") {
+        display.textContent += equalsAnswer;
         displayTop.textContent += equalsAnswer;
     } else {
+        display.textContent = equalsAnswer;
         displayTop.textContent = equalsAnswer;
     }
 
@@ -137,26 +224,23 @@ function answerChecker()
 
 function deleteLast() {
     let currentSum = displayTop.textContent.split(' ');  
-    if(currentSum[2] == "") {
+    if (currentSum[2] == "") {
         return;
-    } else if(display.textContent.includes('=')) {
-        return;
-    } else if(display.textContent == '0') {
-        return;
-    }
-    display.textContent = display.textContent.slice(0,-1);
-    displayTop.textContent = displayTop.textContent.slice(0,-1);
-}
-
-function calculate(sumDisplay, operator)
-{
-    let currentSum = sumDisplay.textContent.split(' ');  
-    display.textContent = "";
-    if(currentSum.length != 3) {
-        sumDisplay.textContent += operator;
+    } else if (display.textContent.includes('=')) {
         return;
     } 
-    else if(currentSum[2] == "" ){
+    display.textContent = display.textContent.slice(0, -1);
+    displayTop.textContent = displayTop.textContent.slice(0, -1);
+}
+
+function calculate(sumDisplay, operator) {
+    let currentSum = sumDisplay.textContent.split(' ');  
+    display.textContent = "";
+    if (currentSum.length != 3) {
+        sumDisplay.textContent += operator;
+        return;
+    }
+    else if (currentSum[2] == "") {
         currentSum[1] = operator;
         currentSum.pop();
         sumDisplay.textContent = currentSum.join("");
@@ -168,12 +252,11 @@ function calculate(sumDisplay, operator)
 }
 
 function displayAnswer(sumDisplay) {
-let currentSum = sumDisplay.textContent.split(' ');
-    if(currentSum.length != 3) {
+    let currentSum = sumDisplay.textContent.split(' ');
+    if (currentSum.length != 3) {
         return;
     }
-    else if(currentSum[2] == "" ){
-        display.textContent = "= " + currentSum[0];
+    else if (currentSum[2] == "") {
         return;
     }
     equalsAnswer = operate(currentSum[0], currentSum[1], currentSum[2]);
@@ -193,6 +276,10 @@ function operate(num1, operator, num2) {
         result = divide(num1, num2);
     } else if (operator == '^') {
         result = powerOf(num1, num2);
+    }
+
+    if(result === NaN) {
+        return 'Error';
     }
     return result;
 }
@@ -214,8 +301,12 @@ function divide(num1, num2) {
     return ((num1 * 10) / (num2)) / 10;
 }
 
-function powerOf(num1, num2)
-{
+function powerOf(num1, num2) {
     return num1 ** num2;
+}
+
+function currentSum(equation) {
+    console.log(equation);
+    return equation.textContent.split(' ');
 }
 
