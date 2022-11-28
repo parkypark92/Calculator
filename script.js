@@ -1,7 +1,6 @@
 //display variables and defaults
 const display = document.querySelector('.display-bottom');
 const displayTop = document.querySelector('.display-top');
-// display.textContent = 0;
 let equalsAnswer = 0;
 
 //button variables
@@ -40,10 +39,9 @@ plus.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-        if(e.key == '+') {
-            operationsChecker(' + ');
-    calculate(displayTop, ' + ');
-        
+    if (e.key == '+') {
+        operationsChecker(' + ');
+        calculate(displayTop, ' + ');
     }
 });
 
@@ -53,10 +51,10 @@ minus.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-        if(e.key == '-') {
-            operationsChecker(' - ');
-    calculate(displayTop, ' - ');
-        }  
+    if (e.key == '-') {
+        operationsChecker(' - ');
+        calculate(displayTop, ' - ');
+    }
 });
 
 star.addEventListener('click', () => {
@@ -65,9 +63,9 @@ star.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-        if(e.key == '*') {
-            operationsChecker(' * ');
-    calculate(displayTop, ' * ');
+    if (e.key == '*') {
+        operationsChecker(' * ');
+        calculate(displayTop, ' * ');
     }
 });
 
@@ -77,10 +75,10 @@ slash.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-    if(e.key == '/') {
+    if (e.key == '/') {
         operationsChecker(' / ');
-calculate(displayTop, ' / ');
-}
+        calculate(displayTop, ' / ');
+    }
 });
 
 power.addEventListener('click', () => {
@@ -89,10 +87,10 @@ power.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-    if(e.key == '^') {
+    if (e.key == '^') {
         operationsChecker(' ^ ');
-calculate(displayTop, ' ^ ');
-}
+        calculate(displayTop, ' ^ ');
+    }
 });
 
 equals.addEventListener('click', () => {
@@ -100,35 +98,34 @@ equals.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-    if(e.key == '=') {
+    if (e.key == '=') {
         displayAnswer(displayTop);
-
-}
+    }
 });
 
 dot.addEventListener('click', dotChecker);
 
 document.addEventListener('keypress', e => {
-    if(e.key == '.') {
+    if (e.key == '.') {
         dotChecker();
-}
+    }
 });
 
 answer.addEventListener('click', answerChecker);
 
 document.addEventListener('keypress', e => {
-    if(e.key == 'a') {
+    if (e.key == 'a') {
         answerChecker();
-}
+    }
 });
 
 
 backspace.addEventListener('click', deleteLast);
 
 document.addEventListener('keydown', e => {
-    if(e.key === 'Backspace') {
+    if (e.key === 'Backspace') {
         deleteLast();
-}
+    }
 });
 
 clear.addEventListener('click', () => {
@@ -137,10 +134,10 @@ clear.addEventListener('click', () => {
 });
 
 document.addEventListener('keypress', e => {
-    if(e.key == 'c') {
+    if (e.key == 'c') {
         display.textContent = "";
-    displayTop.textContent = "";
-}
+        displayTop.textContent = "";
+    }
 });
 
 
@@ -152,7 +149,7 @@ function getClickEventsForNumbers() {
                 numbersChecker();
                 display.textContent += `${i}`;
                 displayTop.textContent += `${i}`;
-            }  
+            }
         });
     }
 }
@@ -160,13 +157,13 @@ function getClickEventsForNumbers() {
 function getKeyEventsForNumbers() {
     for (let i = 0; i < numArray.length; i++) {
         document.addEventListener('keypress', e => {
-            if(e.key == i) {
-            if (display.textContent.length < 20) {
-                numbersChecker();
-                display.textContent += `${i}`;
-                displayTop.textContent += `${i}`;
-            }  
-        }
+            if (e.key == i) {
+                if (display.textContent.length < 20) {
+                    numbersChecker();
+                    display.textContent += `${i}`;
+                    displayTop.textContent += `${i}`;
+                }
+            }
         });
     }
 }
@@ -182,12 +179,11 @@ function operationsChecker(operator) {
 
 
 function numbersChecker() {
-    if (
-        display.textContent.includes('=')) {
+    if (display.textContent.includes('=')) {
         display.textContent = "";
         displayTop.textContent = "";
     }
-    if(display.textContent == '0' && displayTop.textContent == '0') {
+    if (display.textContent == '0' && displayTop.textContent == '0') {
         display.textContent = "";
         displayTop.textContent = "";
     }
@@ -195,7 +191,7 @@ function numbersChecker() {
 
 
 function dotChecker() {
-    let currentSum = displayTop.textContent.split(' ');  
+    let currentSum = displayTop.textContent.split(' ');
     if (display.textContent.includes('.')) {
         return;
     } else if (currentSum.length == 1 && currentSum[0].includes('.')) {
@@ -211,7 +207,7 @@ function dotChecker() {
 
 function answerChecker() {
     display.textContent = "";
-    let currentSum = displayTop.textContent.split(' ');  
+    let currentSum = displayTop.textContent.split(' ');
     if (currentSum[2] == "") {
         display.textContent += equalsAnswer;
         displayTop.textContent += equalsAnswer;
@@ -223,18 +219,18 @@ function answerChecker() {
 }
 
 function deleteLast() {
-    let currentSum = displayTop.textContent.split(' ');  
+    let currentSum = displayTop.textContent.split(' ');
     if (currentSum[2] == "") {
         return;
     } else if (display.textContent.includes('=')) {
         return;
-    } 
+    }
     display.textContent = display.textContent.slice(0, -1);
     displayTop.textContent = displayTop.textContent.slice(0, -1);
 }
 
 function calculate(sumDisplay, operator) {
-    let currentSum = sumDisplay.textContent.split(' ');  
+    let currentSum = sumDisplay.textContent.split(' ');
     display.textContent = "";
     if (currentSum.length != 3) {
         sumDisplay.textContent += operator;
@@ -278,9 +274,10 @@ function operate(num1, operator, num2) {
         result = powerOf(num1, num2);
     }
 
-    if(result === NaN) {
+    if (isNaN(result)) {
         return 'Error';
     }
+    console.log(result);
     return result;
 }
 

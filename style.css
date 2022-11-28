@@ -3,23 +3,38 @@
 }
 
 body {
-    padding: 20px
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 900px;
+    background-color: rgb(216, 216, 216);
 }
+
 .calculator-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
     height: 580px;
-    width: 450px;
-    background-color: rgb(58, 34, 102);
-    padding: 25px;
+    width: 440px;
+    background-color: rgb(76, 48, 128);
+    padding: 25px 15px 25px 15px;
+    border: 2px solid black;
     border-radius: 20px;
 }
 
+
+/* screen and display */
+
 .screen {
     position: relative;
-    width: 400px;
-    height: 100px;
-    background-color: rgb(255, 255, 255);
+    width: 408px;
+    height: 120px;
+    background-color: rgb(188, 214, 199);
     color: black;
-    margin-bottom: 60px;
+    border: 2px solid black;
+    border-radius: 5px;
+    box-shadow: 0px 2px 2px rgb(53, 53, 53) inset ;
 }
 
 .display-bottom {
@@ -40,54 +55,46 @@ body {
     padding: 5px;
 }
 
-.buttons {
-    display: flex;
-}
 
-.number-buttons, .operator-buttons {
+/* buttons */
+
+.buttons-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     height: 380px;
     padding: 10px;
-    background-color: aquamarine;
+    background-color: rgb(92, 56, 160);;
+    border-radius: 5px;
+    box-shadow: 0px 2px rgb(53, 53, 53) inset;
 }
 
-.number-buttons {
-    width: 300px;
-}
-
-.operator-buttons {
-    width: 100px;
-}
-
-
-.number, .operator {
+.button {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5em;
-    height: 50px;
-    width: 80px;
+    height: 60px;
+    width: 90px;
     color: aliceblue;
-    background-color: blue;
+    background-color: rgb(100, 100, 100);
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 1px rgb(53, 53, 53)  ;
 }
 
 .operator {
-    background-color: brown;
+    background-color: rgb(146, 63, 63);
 }
 
 .button:hover {
     cursor: pointer;
 }
 
-#texttest {
-    box-sizing: border-box;
-    resize: none;
-    font-size: 2em;
-    width: 400px;
-    text-align: right;
-    padding: 20px 5px 5px 0px;
+.button:active {
+    box-shadow: 0px 0px;
+    font-size: 1.4em;
 }
+
 
